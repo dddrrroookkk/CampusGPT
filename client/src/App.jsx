@@ -3,6 +3,8 @@ import ReactMarkdown from "react-markdown";
 import Auth from "./components/Auth";
 import "./index.css";
 
+const API_URL = "https://campusgpt-tam1.onrender.com";
+
 function App() {
   const [user, setUser] = useState(() => {
     const savedUser = localStorage.getItem("user");
@@ -43,7 +45,7 @@ function CampusChat({ user, onLogout }) {
         const token = localStorage.getItem("token");
 
         const response = await fetch(
-          "http://127.0.0.1:5000/api/chat/history",
+          `${API_URL}/api/chat/history`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -90,7 +92,7 @@ function CampusChat({ user, onLogout }) {
       const token = localStorage.getItem("token");
 
       const response = await fetch(
-        "http://127.0.0.1:5000/api/chat",
+        `${API_URL}/api/chat`,
         {
           method: "POST",
 
@@ -146,9 +148,6 @@ function CampusChat({ user, onLogout }) {
 
   return (
     <div className="app">
-
-      {/* Header */}
-
       <header className="header">
         <div>
           <h1>CampusGPT</h1>
@@ -167,10 +166,7 @@ function CampusChat({ user, onLogout }) {
         </div>
       </header>
 
-      {/* Chat */}
-
       <main className="chat-container">
-
         {historyLoading ? (
           <div className="welcome">
             <div className="logo">🎓</div>
@@ -181,7 +177,6 @@ function CampusChat({ user, onLogout }) {
           </div>
         ) : messages.length === 0 ? (
           <div className="welcome">
-
             <div className="logo">🎓</div>
 
             <h2>
@@ -195,7 +190,6 @@ function CampusChat({ user, onLogout }) {
             </p>
 
             <div className="suggestions">
-
               <button
                 onClick={() =>
                   setQuestion(
@@ -227,20 +221,15 @@ function CampusChat({ user, onLogout }) {
                 What is the attendance
                 requirement?
               </button>
-
             </div>
-
           </div>
         ) : (
           <div className="messages">
-
             {messages.map((message, index) => (
-
               <div
                 key={index}
                 className={`message-row ${message.role}`}
               >
-
                 <div className="avatar">
                   {message.role === "user"
                     ? "👤"
@@ -248,9 +237,7 @@ function CampusChat({ user, onLogout }) {
                 </div>
 
                 <div className="message">
-
                   <div className="message-content">
-
                     {message.role === "assistant" ? (
                       <ReactMarkdown>
                         {message.content}
@@ -258,13 +245,11 @@ function CampusChat({ user, onLogout }) {
                     ) : (
                       message.content
                     )}
-
                   </div>
 
                   {message.sources &&
                     message.sources.length > 0 && (
                       <div className="sources">
-
                         <strong>
                           Sources
                         </strong>
@@ -287,45 +272,31 @@ function CampusChat({ user, onLogout }) {
                             </div>
                           )
                         )}
-
                       </div>
                     )}
-
                 </div>
-
               </div>
-
             ))}
 
             {loading && (
               <div className="message-row assistant">
-
                 <div className="avatar">
                   🤖
                 </div>
 
                 <div className="message">
-
                   <div className="typing">
                     CampusGPT is thinking...
                   </div>
-
                 </div>
-
               </div>
             )}
-
           </div>
         )}
-
       </main>
 
-      {/* Input */}
-
       <div className="input-area">
-
         <div className="input-box">
-
           <textarea
             value={question}
             onChange={(e) =>
@@ -345,16 +316,13 @@ function CampusChat({ user, onLogout }) {
           >
             ➤
           </button>
-
         </div>
 
         <p className="hint">
           CampusGPT answers using the available
           campus documents.
         </p>
-
       </div>
-
     </div>
   );
 }
